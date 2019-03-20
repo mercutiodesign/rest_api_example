@@ -1,0 +1,11 @@
+{% extends "news/base.html" %}
+{% block title %} New post {% endblock %}
+{% block content %}
+<h1>Create a new post</h1>
+<form method="post">{% csrf_token %}
+    <input class="form-control mb-3" name="title" id="id_title" type="text" placeholder="Title" required>
+    <textarea class="form-control mb-3" name="text" id="id_text" rows="10" placeholder="Post text" required></textarea>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

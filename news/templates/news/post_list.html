@@ -1,0 +1,11 @@
+{% extends "news/base.html" %}
+{% block title %} Latest news {% endblock %}
+{% block content %}
+<h1>{{post_list.count}} available posts</h1>
+<div class="list-group mb-3">
+    {% for post in post_list %}
+    <a href="{% url 'post' post.id %}" class="list-group-item list-group-item-action">{{ post.title }}</a>
+    {% endfor %}
+</div>
+<a href="{% url 'new-post' %}" class="btn btn-primary">Create a new post</a>
+{% endblock %}

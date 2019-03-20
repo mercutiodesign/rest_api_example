@@ -1,0 +1,9 @@
+{% extends "news/base.html" %}
+{% block title %} Confirm post deletion {% endblock %}
+{% block content %}
+<h1>Confirm deletion of post "{{ post.title }}"</h1>
+<form method="post">{% csrf_token %}
+    <input type="submit" class="btn btn-danger" value="Confirm">
+    <a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
