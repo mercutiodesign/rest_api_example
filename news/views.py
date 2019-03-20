@@ -1,15 +1,26 @@
 from django.http import HttpResponse
 from django.views import generic
+from django.utils import timezone
+from django.urls import reverse_lazy
 from .models import Post
 
 
-class IndexView(generic.ListView):
-    template_name = 'news/index.html'
-    context_object_name = 'posts'
+class PostList(generic.ListView):
+    model = Post
 
-    def get_queryset(self):
-        """Return the last five published questions."""
-        return Post.objects.order_by('-date')
+class PostCreate(generic.CreateView):
+    model = Post
+    fields = ['title', 'text']
+    success_url = reverse_lazy("index")
 
-def post(_request, post_id):
-    return HttpResponse("post %d" % post_id)
+    def form_valid(self, form):
+        form.instance.date = timezone.now()
+        return super().form_valid(form)
+
+class PostDetail(generic.DetailView):
+    model = Post
+    fields = "__all__"
+
+class PostDelete(generic.DeleteView):
+    model = Post
+    success_url = reverse_lazy("index")
