@@ -5,5 +5,3 @@ class Post(models.Model):
     title = models.CharField(max_length=1000)
     text = models.TextField()
     date = models.DateTimeField()
-
-

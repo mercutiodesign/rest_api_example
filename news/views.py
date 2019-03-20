@@ -8,6 +8,7 @@ from .models import Post
 class PostList(generic.ListView):
     model = Post
 
+
 class PostCreate(generic.CreateView):
     model = Post
     fields = ['title', 'text']
@@ -17,9 +18,11 @@ class PostCreate(generic.CreateView):
         form.instance.date = timezone.now()
         return super().form_valid(form)
 
+
 class PostDetail(generic.DetailView):
     model = Post
     fields = "__all__"
+
 
 class PostDelete(generic.DeleteView):
     model = Post
