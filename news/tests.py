@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
-from django.utils import timezone
 from django.urls import reverse
+from django.utils import timezone
+
 from .models import Post
 
 
@@ -20,7 +21,17 @@ class ApiTest(TestCase):
         # Check that the response is 200 OK.
         self.assertEqual(response.status_code, 200)
 
-        # TODO: write some code that checks that the returned json is actually correct
+        # It should return valid JSON
+        data = response.json()
+
+        # There should be exactly one post right now
+        self.assertEqual(len(data), 1)
+
+        # The post title and text should be correct
+        post = data[0]
+        expected = ApiTest.post
+        self.assertEqual(post['title'], expected.title)
+        self.assertEqual(post['text'], expected.text)
 
 
 # Test that the normal frontend is working as expected
