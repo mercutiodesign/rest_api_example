@@ -1,3 +1,5 @@
+import json
+
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.utils import timezone
@@ -32,6 +34,21 @@ class ApiTest(TestCase):
         expected = ApiTest.post
         self.assertEqual(post['title'], expected.title)
         self.assertEqual(post['text'], expected.text)
+
+    def test_api_create(self):
+        start = timezone.now()
+        data = {'title': 'hello', 'text': 'new-post'}
+        response = self.client.post('/api/posts/', data=data)
+        self.assertEqual(response.status_code, 201)
+
+        # it should have created a new post
+        self.assertEqual(Post.objects.count(), 2)
+
+        # timestamp should be between start and now
+        time = Post.objects.last().date
+        self.assertGreaterEqual(time, start)
+        self.assertLessEqual(time, timezone.now())
+
 
 
 # Test that the normal frontend is working as expected
