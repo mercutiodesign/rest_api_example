@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.utils import timezone
 from rest_framework import routers, serializers, viewsets
 
 from .models import Post
@@ -8,6 +9,11 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Post
         fields = "__all__"
+        read_only_fields = ('date',)
+
+    def create(self, validated_data: dict):
+        validated_data['date'] = timezone.now()
+        return super().create(validated_data)
 
 
 # ViewSets define the view behavior.
